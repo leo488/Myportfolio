@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // User Profile Rules
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(userId) && isValidUser(incoming());
+    }
+
+    function isValidUser(user) {
+      return user.uid == request.auth.uid &&
+             user.displayName is string && user.displayName.size() > 0 && user.displayName.size() < 100 &&
+             (user.photoURL == null || (user.photoURL is string && user.photoURL.size() < 500)) &&
+             (user.bio == null || (user.bio is string && user.bio.size() < 500));
+    }
+
+    // Conversation Rules
+    match /conversations/{conversationId} {
+      allow read: if isSignedIn() && request.auth.uid in existing().participants;
+      allow create: if isSignedIn() && 
+                      incoming().participants.size() == 2 && 
+                      request.auth.uid in incoming().participants &&
+                      isValidConversation(incoming());
+      allow update: if isSignedIn() && 
+                      request.auth.uid in existing().participants &&
+                      incoming().diff(existing()).affectedKeys().hasOnly(['lastMessage', 'updatedAt']);
+    }
+
+    function isValidConversation(conv) {
+      return conv.participants is list && conv.participants.size() == 2 &&
+             conv.updatedAt == request.time;
+    }
+
+    // Message Rules
+    match /conversations/{conversationId}/messages/{messageId} {
+      allow read: if isSignedIn() && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants;
+      allow create: if isSignedIn() && 
+                      request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants &&
+                      incoming().senderId == request.auth.uid &&
+                      isValidMessage(incoming());
+    }
+
+    function isValidMessage(msg) {
+      return msg.text is string && msg.text.size() > 0 && msg.text.size() < 2000 &&
+             msg.senderId == request.auth.uid &&
+             msg.createdAt == request.time &&
+             msg.conversationId is string && msg.conversationId.size() < 128;
+    }
+  }
+}

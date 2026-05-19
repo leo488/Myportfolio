@@ -1,0 +1,56 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public profile for users in the creative network.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "email": { "type": "string" }
+      },
+      "required": ["uid", "displayName", "email"]
+    },
+    "Message": {
+      "title": "Direct Message",
+      "description": "A single message between two users.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "conversationId": { "type": "string" }
+      },
+      "required": ["text", "senderId", "receiverId", "createdAt", "conversationId"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Metadata for a group of messages between two users.",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participants", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data."
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Metadata for a chat."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages belonging to a conversation."
+    }
+  }
+}
