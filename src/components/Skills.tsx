@@ -13,10 +13,10 @@ const SKILLS = [
 
 export default function Skills() {
   return (
-    <section className="px-8 py-40 max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12">
+    <section className="px-4 md:px-8 py-16 md:py-40 max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8 md:gap-12">
       <div className="md:w-1/3">
-        <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-zinc-500">
-          My Skills <ArrowDownRight size={14} />
+        <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-600">
+          Focus <ArrowDownRight size={13} />
         </div>
       </div>
       <div className="md:w-2/3 flex flex-col">

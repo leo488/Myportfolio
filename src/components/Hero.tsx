@@ -1,40 +1,55 @@
-import { motion } from 'motion/react';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import { useEffect } from 'react';
+
+function AnimatedEyes() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX - window.innerWidth / 2);
+      mouseY.set(e.clientY - window.innerHeight / 2);
+    };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
+  const springCfg = { stiffness: 60, damping: 18, mass: 0.8 };
+  const x = useSpring(useTransform(mouseX, [-800, 800], [-22, 22]), springCfg);
+  const y = useSpring(useTransform(mouseY, [-500, 500], [-10, 10]), springCfg);
+  const rotate = useSpring(useTransform(mouseX, [-800, 800], [-12, 12]), { stiffness: 40, damping: 16 });
+
+  return (
+    <motion.span style={{ x, y, rotate, display: 'inline-block' }}>
+      👀
+    </motion.span>
+  );
+}
 
 export default function Hero() {
   return (
-    <section className="min-h-screen pt-48 px-8 pb-32 max-w-7xl mx-auto flex flex-col justify-between">
+    <section className="px-4 md:px-8 max-w-7xl mx-auto pt-24 md:pt-28">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-5xl"
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        className="flex items-end justify-between pb-8 border-b border-zinc-800"
       >
-        <h1 className="text-[10vw] md:text-[6.5vw] font-bold tracking-[-0.03em] leading-[0.95] mb-12 text-white" id="hero-title">
-          I'm a super-charged creative, I design brands and digital products with clarity, character, and motion. 👀
-        </h1>
-        <p className="text-[18px] md:text-[22px] text-zinc-500 max-w-2xl font-light leading-relaxed" id="hero-desc">
-          Branding, product design, and motion for startups building real products — not just pretty screens.
-        </p>
-      </motion.div>
-
-      <div className="mt-20">
-        <div className="w-full h-[1px] bg-zinc-800 mb-10" />
-        <div className="flex justify-between items-end text-[12px] uppercase tracking-[0.2em] font-medium text-zinc-500">
-          <div className="flex items-center gap-4">
-            <span className="max-w-[280px] normal-case tracking-normal text-zinc-600">A few projects where strategy, design, and execution came together.</span>
-            <motion.span
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="text-lg"
-            >
-              ↓
-            </motion.span>
-          </div>
-          <div className="text-[12vw] md:text-[8vw] font-bold text-zinc-900 leading-none mb-[-2vw]" id="hero-year">
-            © 2026
-          </div>
+        {/* Left — label + year */}
+        <div className="flex flex-col">
+          <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-zinc-600 mb-4 block">
+            Work ↓
+          </span>
+          <span className="text-[16vw] md:text-[12vw] font-bold leading-none tracking-[-0.05em]">
+            2026
+          </span>
         </div>
-      </div>
+
+        {/* Right — Portfolio + eyes */}
+        <span className="text-[16vw] md:text-[12vw] font-bold leading-none tracking-[-0.05em] flex items-end gap-3">
+          Portfolio <AnimatedEyes />
+        </span>
+      </motion.div>
     </section>
   );
 }
