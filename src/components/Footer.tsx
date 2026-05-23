@@ -62,10 +62,10 @@ export default function Footer() {
         </div>
       </motion.a>
 
-      {/* Contact + Socials — offset to align with Skills/Facts content column */}
-      <div className="flex flex-col md:flex-row items-start gap-0">
-        <div className="hidden md:block md:w-1/3 shrink-0" />
-        <div className="w-full flex flex-col md:flex-row justify-between items-start gap-10 md:gap-16">
+      {/* Contact + Socials — grid mirrors Bio/Skills [1fr_2fr] so left edges align */}
+      <div className="grid md:grid-cols-[1fr_2fr]">
+        <div className="hidden md:block" />
+        <div className="flex flex-col md:flex-row justify-between items-start gap-10 md:gap-16">
         {/* Left — contact */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

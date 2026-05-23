@@ -48,7 +48,7 @@ const PROJECTS: Project[] = [
     ],
   },
   {
-    title: "Refuge",
+    title: "Refreeg",
     subtitle: "Blockchain-powered donation platform — full UX overhaul and market repositioning following a ₦50M funding raise",
     desc: ["UX STRATEGY", "MARKET POSITIONING", "PRODUCT REDESIGN"],
     images: [
@@ -67,6 +67,7 @@ const PROJECTS: Project[] = [
       "01Squaremetre_thumbnail.png",
       "02Squaremetre_thumbnail.png",
     ],
+    link: "https://www.behance.net/gallery/249865443/Squaremetre-BrandProduct-development-%28crash%29",
   },
   {
     title: "ESCRO",
