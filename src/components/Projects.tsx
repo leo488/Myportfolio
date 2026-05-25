@@ -26,6 +26,17 @@ const PROJECTS: Project[] = [
     link: "https://www.behance.net/gallery/246745305/iPayBTC-Rebrand",
   },
   {
+    title: "Squaremetre",
+    subtitle: "Fractional real estate ownership platform for Nigerians",
+    desc: ["STRATEGY", "PRODUCT DESIGN / DEV", "LED THE TEAM", "BRANDING"],
+    images: [
+      "sqm.png",
+      "01Squaremetre_thumbnail.png",
+      "02Squaremetre_thumbnail.png",
+    ],
+    link: "https://www.behance.net/gallery/249865443/Squaremetre-BrandProduct-development-%28crash%29",
+  },
+  {
     title: "TagMi",
     subtitle: "Creator economy platform that returns value to those who build audiences online",
     desc: ["BRAND STRATEGY", "PRODUCT DESIGN"],
@@ -57,17 +68,6 @@ const PROJECTS: Project[] = [
       "refreeG_thumbnail-2.png",
       "refreeG_thumbnail-3.png",
     ],
-  },
-  {
-    title: "Squaremetre",
-    subtitle: "Fractional real estate ownership platform for Nigerians",
-    desc: ["STRATEGY", "PRODUCT DESIGN / DEV", "LED THE TEAM", "BRANDING"],
-    images: [
-      "sqm.png",
-      "01Squaremetre_thumbnail.png",
-      "02Squaremetre_thumbnail.png",
-    ],
-    link: "https://www.behance.net/gallery/249865443/Squaremetre-BrandProduct-development-%28crash%29",
   },
   {
     title: "ESCRO",
