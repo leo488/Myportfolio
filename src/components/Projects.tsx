@@ -239,7 +239,8 @@ export default function Projects() {
 
   const handleProjectClick = (project: Project) => {
     if (project.link) {
-      setLockedModal({ link: project.link, title: project.title });
+      // setLockedModal({ link: project.link, title: project.title });
+      window.open(project.link, '_blank', 'noopener,noreferrer');
     } else {
       setComingModal(project.title);
     }
