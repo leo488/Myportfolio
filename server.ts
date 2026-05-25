@@ -1,10 +1,13 @@
 import express from "express";
 import path from "path";
+import compression from "compression";
 import { createServer as createViteServer } from "vite";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  app.use(compression());
 
   // API routes FIRST
   app.get("/api/health", (req, res) => {

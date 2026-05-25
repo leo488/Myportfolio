@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './lib/firebase';
@@ -9,8 +9,9 @@ import Skills from './components/Skills';
 import Bio from './components/Bio';
 import Footer from './components/Footer';
 import FilterBar from './components/FilterBar';
-import Network from './components/Network';
-import Resume from './components/Resume';
+
+const Network = lazy(() => import('./components/Network'));
+const Resume = lazy(() => import('./components/Resume'));
 
 type View = 'home' | 'network' | 'profile';
 
@@ -72,8 +73,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <Resume />
-            <Footer />
+            <Suspense fallback={null}>
+              <Resume />
+              <Footer />
+            </Suspense>
           </motion.main>
         )}
 
@@ -85,8 +88,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <Network />
-            <Footer />
+            <Suspense fallback={null}>
+              <Network />
+              <Footer />
+            </Suspense>
           </motion.main>
         )}
       </AnimatePresence>

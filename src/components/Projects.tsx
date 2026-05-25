@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'motion/react';
 import { useRef, useState, useEffect } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import PasswordModal from './PasswordModal';
@@ -140,13 +140,14 @@ function ProjectCard({ project, index, onProjectClick }: CardProps) {
 
   const y = useTransform(scrollYProgress, [0, 1], [16, -16]);
 
+  const isInView = useInView(ref, { margin: '100px' });
   const [imgIndex, setImgIndex] = useState(0);
   const hasMultiple = project.images.length > 1;
 
   useEffect(() => {
-    if (!hasMultiple) return;
-    const baseInterval = 3800 + (index % 5) * 650; // each card gets a different pace
-    const startDelay = index * 1100;               // stagger when each card first fires
+    if (!hasMultiple || !isInView) return;
+    const baseInterval = 3800 + (index % 5) * 650;
+    const startDelay = index * 1100;
     let intervalId: ReturnType<typeof setInterval>;
 
     const timeoutId = setTimeout(() => {
@@ -159,7 +160,7 @@ function ProjectCard({ project, index, onProjectClick }: CardProps) {
       clearTimeout(timeoutId);
       clearInterval(intervalId);
     };
-  }, [project.images.length, hasMultiple, index]);
+  }, [project.images.length, hasMultiple, index, isInView]);
 
   const col = index % 2;
 
@@ -191,6 +192,8 @@ function ProjectCard({ project, index, onProjectClick }: CardProps) {
                 key={imgIndex}
                 src={`/thumbnails/${encodeURIComponent(project.images[imgIndex])}`}
                 alt={project.title}
+                loading="lazy"
+                decoding="async"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
