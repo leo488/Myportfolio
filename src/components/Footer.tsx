@@ -4,9 +4,10 @@ import { ArrowUpRight, ArrowDown } from 'lucide-react';
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const SOCIALS = [
-  { label: 'Behance', href: '#' },
+  { label: 'Behance', href: 'https://www.behance.net/leoadams3' },
+  { label: 'Contra', href: 'https://contra.com/leonard_adams_1zwz079y?referralExperimentNid=DEFAULT_REFERRAL_PROGRAM&referrerUsername=leonard_adams_1zwz079y' },
   { label: 'Instagram', href: '#' },
-  { label: 'LinkedIn', href: '#' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/leonard-adams-adanu-agbo-58b9ba373' },
 ];
 
 const buttonVariants = {
@@ -91,6 +92,8 @@ export default function Footer() {
             <motion.a
               key={label}
               href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
